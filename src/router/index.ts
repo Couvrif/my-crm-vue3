@@ -8,20 +8,17 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/login.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views//login/login.vue')
   },
   {
     path: '/about',
     name: 'about',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
     path: '/home',
     name: 'home',
-    component: () =>
-      import(/* webpackChunkName: "about" */ '../views/HomeView.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/HomeView.vue')
   }
 ]
 

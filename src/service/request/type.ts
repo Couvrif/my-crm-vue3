@@ -1,14 +1,15 @@
 import { AxiosRequestConfig } from 'axios'
 
-interface MYRequestInterceptors {
+interface MYRequestInterceptors<T = AxiosRequestConfig> {
   requestInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
   requestInterceptorCatch?: (config: any) => any
-  responseInterceptor?: (config: AxiosRequestConfig) => AxiosRequestConfig
+  responseInterceptor?: (config: T) => T
   responseInterceptorCatch?: (config: any) => any
 }
 
-interface MYRequestConfig extends AxiosRequestConfig {
-  interceptors?: MYRequestInterceptors
+interface MYRequestConfig<T = AxiosRequestConfig> extends AxiosRequestConfig {
+  interceptors?: MYRequestInterceptors<T>
+  showLoading?: boolean
 }
 
 export { MYRequestInterceptors, MYRequestConfig }

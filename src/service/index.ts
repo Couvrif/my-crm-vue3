@@ -8,17 +8,14 @@ const myRequest = new MYRequest({
     requestInterceptor: (config) => {
       console.log('请求成功', config)
       const token = ''
-      // if (token) {
-      //   config.headers.Authorization = `Bearer ${token}`
-      // }
       if (token) {
         config.headers!.Authorization = `Bearer ${token}`
       }
       return config
     },
-    responseInterceptor: (config) => {
-      console.log('响应成功', config)
-      return config
+    responseInterceptor: (res) => {
+      console.log('响应成功', res)
+      return res
     }
   }
 })

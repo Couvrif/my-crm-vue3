@@ -1,17 +1,17 @@
 <template>
   <div class="login">
     <div class="login-content">
-      <el-tabs type="border-card" stretch>
-        <el-tab-pane>
+      <el-tabs type="border-card" stretch v-model="currentTab">
+        <el-tab-pane name="account">
           <template #label>
             <span class="custom-tabs-label">
               <el-icon><User /></el-icon>
               <span>账号登录</span>
             </span>
           </template>
-          <loginAccountVue :account="account" ref="accountRef"></loginAccountVue>
+          <loginAccountVue :account="account" :isKeep="isKeep" ref="accountRef"></loginAccountVue>
         </el-tab-pane>
-        <el-tab-pane>
+        <el-tab-pane name="phone">
           <template #label>
             <span class="custom-tabs-label">
               <el-icon><Iphone /></el-icon>
@@ -35,15 +35,15 @@ import { reactive, ref } from 'vue'
 import { User, Iphone } from '@element-plus/icons-vue'
 import loginAccountVue from './cpns/login-account.vue'
 import loginPhoneVue from './cpns/login-phone.vue'
+import cache from '@/utils/cache'
 
 // do not use same name with ref
 const isKeep = ref(true)
-
+const currentTab = ref('account')
 const accountRef = ref<InstanceType<typeof loginAccountVue>>()
-
 const account = reactive({
-  name: '',
-  password: ''
+  name: cache.getCache('name') ?? '',
+  password: cache.getCache('password') ?? ''
 })
 
 const loginAction = () => {

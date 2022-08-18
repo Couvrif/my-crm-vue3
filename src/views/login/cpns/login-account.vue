@@ -13,7 +13,12 @@
 
 <script setup lang="ts">
 import { reactive, ref, defineProps, toRefs, defineExpose } from 'vue'
+import cache from '@/utils/cache'
 import type { ElForm, FormInstance, FormRules } from 'element-plus'
+import store from '@/store'
+import { postLogin } from '@/service/login/login'
+
+const { login } = store()
 
 const formRef = ref<InstanceType<typeof ElForm>>()
 
@@ -22,10 +27,13 @@ const props = defineProps({
     type: Object,
     // eslint-disable-next-line vue/require-valid-default-prop
     default: {}
+  },
+  isKeep: {
+    type: Boolean
   }
 })
 
-const { account } = toRefs(props)
+const { account, isKeep } = toRefs(props)
 
 const accountRules = {
   name: [
@@ -46,6 +54,21 @@ const accountLoginAction = () => {
   console.log('子组件点击登陆')
   formRef.value?.validate((valid) => {
     console.log('校验', valid)
+    // eslint-disable-next-line no-undef
+    if (isKeep) {
+      cache.setCache('name', account.value.name)
+      cache.setCache('password', account.value.password)
+    } else {
+      cache.deleteCache('name')
+      cache.deleteCache('password')
+    }
+
+    let accountP = { name: account.value.name, password: account.value.password }
+
+    // login.userLogin(accountP)
+    postLogin(accountP).then((res) => {
+      console.log('ressssssss', res)
+    })
   })
 }
 

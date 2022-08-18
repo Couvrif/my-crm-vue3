@@ -44,7 +44,7 @@ class MYRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('全部实例都有的响应成功', config)
+        console.log('全部实例都有的响应成功', res)
         if (this.showLoading) {
           setTimeout(() => {
             this.loading?.close()
@@ -54,7 +54,7 @@ class MYRequest {
         if (data.returnCode === '-1001') {
           console.log('请求失败')
         }
-        return config
+        return res
       },
       (err) => {
         console.log('全部实例都有的响应失败', config)
@@ -96,6 +96,22 @@ class MYRequest {
           reject(err)
         })
     })
+  }
+
+  get<T = any>(config: MYRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'GET' })
+  }
+
+  post<T = any>(config: MYRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'POST' })
+  }
+
+  put<T = any>(config: MYRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'PUT' })
+  }
+
+  delete<T = any>(config: MYRequestConfig<T>): Promise<T> {
+    return this.request({ ...config, method: 'DELETE' })
   }
 }
 

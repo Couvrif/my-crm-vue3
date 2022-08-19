@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref, defineProps, toRefs, defineExpose } from 'vue'
+import { reactive, ref, defineProps, toRefs, defineExpose, toRef } from 'vue'
 import cache from '@/utils/cache'
 import type { ElForm, FormInstance, FormRules } from 'element-plus'
 import store from '@/store'
@@ -22,18 +22,18 @@ const { login } = store()
 
 const formRef = ref<InstanceType<typeof ElForm>>()
 
+const account = reactive({
+  name: cache.getCache('name') ?? '',
+  password: cache.getCache('password') ?? ''
+})
+
 const props = defineProps({
-  account: {
-    type: Object,
-    // eslint-disable-next-line vue/require-valid-default-prop
-    default: {}
-  },
   isKeep: {
     type: Boolean
   }
 })
 
-const { account, isKeep } = toRefs(props)
+const { isKeep } = toRefs(props)
 
 const accountRules = {
   name: [
@@ -51,24 +51,19 @@ const accountRules = {
 }
 
 const accountLoginAction = () => {
-  console.log('子组件点击登陆')
+  console.log('子组件点击登陆', login)
   formRef.value?.validate((valid) => {
     console.log('校验', valid)
     // eslint-disable-next-line no-undef
     if (isKeep) {
-      cache.setCache('name', account.value.name)
-      cache.setCache('password', account.value.password)
+      cache.setCache('name', account.name)
+      cache.setCache('password', account.password)
     } else {
       cache.deleteCache('name')
       cache.deleteCache('password')
     }
 
-    let accountP = { name: account.value.name, password: account.value.password }
-
-    // login.userLogin(accountP)
-    postLogin(accountP).then((res) => {
-      console.log('ressssssss', res)
-    })
+    login.userLogin(account)
   })
 }
 

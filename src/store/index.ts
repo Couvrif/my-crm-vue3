@@ -1,4 +1,4 @@
-import loginStore from './login'
+import { loginStore } from './login'
 
 export default function Store() {
   return {

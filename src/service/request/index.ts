@@ -24,8 +24,6 @@ class MYRequest {
     // 全部实例的拦截器
     this.instance.interceptors.request.use(
       (config) => {
-        console.log('全部实例都有的请求成功', config)
-
         //如果showloading为true则执行加载蒙版
         if (this.showLoading) {
           this.loading = ElLoading.service({
@@ -44,26 +42,17 @@ class MYRequest {
 
     this.instance.interceptors.response.use(
       (res) => {
-        console.log('全部实例都有的响应成功', res)
         if (this.showLoading) {
-          setTimeout(() => {
-            this.loading?.close()
-          }, 2000)
+          this.loading?.close()
         }
         const data = res.data
         if (data.returnCode === '-1001') {
           console.log('请求失败')
         }
-        return res
+        return res.data
       },
       (err) => {
-        console.log('全部实例都有的响应失败', config)
-        if (this.showLoading) {
-          this.loading?.close()
-        }
-        if (err.response.status === 404) {
-          console.log('404错误')
-        }
+        this.loading?.close()
         return err
       }
     )
@@ -89,7 +78,6 @@ class MYRequest {
           // 执行最后把showloading重新置为true
           this.showLoading = DEFAULT_LOADING
 
-          console.log('res', res)
           resolve(res)
         })
         .catch((err) => {

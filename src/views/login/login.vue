@@ -9,7 +9,7 @@
               <span>账号登录</span>
             </span>
           </template>
-          <loginAccountVue :account="account" :isKeep="isKeep" ref="accountRef"></loginAccountVue>
+          <loginAccountVue :isKeep="isKeep" ref="accountRef"></loginAccountVue>
         </el-tab-pane>
         <el-tab-pane name="phone">
           <template #label>
@@ -41,10 +41,6 @@ import cache from '@/utils/cache'
 const isKeep = ref(true)
 const currentTab = ref('account')
 const accountRef = ref<InstanceType<typeof loginAccountVue>>()
-const account = reactive({
-  name: cache.getCache('name') ?? '',
-  password: cache.getCache('password') ?? ''
-})
 
 const loginAction = () => {
   console.log('submit!', accountRef.value)

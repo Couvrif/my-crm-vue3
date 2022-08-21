@@ -1,8 +1,8 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside :width="isCollapse ? '60px' : '210px'">
-        <nav-menu :collapse="isCollapse" />
+      <el-aside :width="isCollapse ? '59px' : '210px'">
+        <nav-menu :isCollapse="isCollapse" />
       </el-aside>
       <el-container class="page">
         <el-header class="page-header">
@@ -23,8 +23,10 @@ import navMenu from '@/components/nav-menu'
 import navHeader from '@/components/nav-header'
 import { ref } from 'vue'
 const isCollapse = ref(false)
-const foldChange = (isFold: boolean) => {
-  isCollapse.value = isFold
+const foldChange = (isFold: string) => {
+  console.log('什么', isFold)
+
+  isCollapse.value = isFold === 'Expand' ? false : true
 }
 </script>
 

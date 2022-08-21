@@ -4,14 +4,42 @@
     <div class="menu-icon">
       <component :is="isFold" @click="handleFoldClick"></component>
     </div>
+    <div class="content">
+      <div class="bread">
+        <myBreadcrumbVue :breadcrumbs="breadcrumbs"></myBreadcrumbVue>
+      </div>
+      <div class="user-info">
+        <el-dropdown>
+          <span class="el-dropdown-link">
+            <el-avatar :size="30" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+            <span>{{ name }}</span>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item>用户信息</el-dropdown-item>
+              <el-dropdown-item>系统管理</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Expand, Fold } from '@element-plus/icons-vue'
-import { ref, defineEmits } from 'vue'
-const isFold = ref(Fold)
-const emits = defineEmits(['handleFoldClick'])
+import { Expand, Fold, User } from '@element-plus/icons-vue'
+import myBreadcrumbVue from '@/base-ui/breadcrumb/src/my-breadcrumb.vue'
+import { pathMapBreadcrumbs } from '@/utils/initRouter'
+import { useRoute } from 'vue-router'
+import store from '@/store'
+import { ref, defineEmits, computed } from 'vue'
+
+const { login } = store()
+const emits = defineEmits(['foldChange'])
+
+const isFold = ref(Expand)
+const name = login.userInfo.name
 
 const handleFoldClick = () => {
   if (isFold.value.name === 'Fold') {
@@ -19,9 +47,16 @@ const handleFoldClick = () => {
   } else {
     isFold.value = Fold
   }
-  emits('foldChange', isFold.value)
+  emits('foldChange', isFold.value.name)
   return isFold
 }
+
+const breadcrumbs = computed(() => {
+  const userMenus = login.menus
+  const route = useRoute()
+  const currentPath = route.path
+  return pathMapBreadcrumbs(userMenus, currentPath)
+})
 </script>
 
 <style scoped lang="less">
@@ -43,6 +78,18 @@ const handleFoldClick = () => {
     align-items: center;
     flex: 1;
     padding: 0 18px;
+
+    .el-icon {
+      font-size: 20px;
+    }
+
+    .el-dropdown-link {
+      display: flex;
+      span {
+        margin: auto;
+        padding: 0 8px;
+      }
+    }
   }
 }
 </style>

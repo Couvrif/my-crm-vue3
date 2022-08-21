@@ -4,16 +4,16 @@
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
       <span class="title">CHENN_CMS</span>
     </div>
-    <el-menu :default-active="1" class="el-menu-vertical" background-color="#0c2135" :collapse="collapse" text-color="#b7bdc3" active-text-color="#0a60bd">
-      <template v-for="item in menus" :key="item.id + ''">
+    <el-menu :default-active="defaultValue" class="el-menu-vertical" background-color="#0c2135" :collapse="isCollapse" text-color="#b7bdc3" active-text-color="#0a60bd">
+      <template v-for="item in menus" :key="item.id">
         <template v-if="item.children && item.children.length">
-          <el-sub-menu v-if="item.type === 1" :index="item.id">
+          <el-sub-menu v-if="item.type === 1" :index="item.id + ''">
             <template #title>
               <i v-if="item.icon" :class="item.icon"></i>
               <span>{{ item.name }}</span>
             </template>
-            <template v-for="item2 in item.children" :key="item2.id + ''">
-              <el-menu-item :index="item2.id">
+            <template v-for="item2 in item.children" :key="item2.id">
+              <el-menu-item :index="item2.id + ''" @click="handleMenu(item2)">
                 <i v-if="item2.icon" :class="item2.icon"></i>
                 <span>{{ item2.name }}</span>
               </el-menu-item>
@@ -32,13 +32,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, defineProps, toRefs } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import Store from '@/store'
+import { pathMapToMenu } from '@/utils/initRouter'
 
 const { login } = Store()
 const { menus } = login
+const router = useRouter()
+const route = useRoute()
+const props = defineProps({
+  isCollapse: {
+    type: Boolean
+  }
+})
+const { isCollapse } = toRefs(props)
+const currentRoute = route.path
+const currentMenu = pathMapToMenu(login.menus, currentRoute)
 
-const collapse = ref(false)
+const defaultValue = ref(currentMenu.id + '')
+
+const handleMenu = (menu: any) => {
+  console.log(menu)
+
+  router.push({
+    path: menu.url ?? '/not-found'
+  })
+}
 </script>
 
 <style scoped lang="less">
@@ -64,6 +84,10 @@ const collapse = ref(false)
       font-weight: 700;
       color: white;
     }
+  }
+
+  .el-menu {
+    border-right: none;
   }
 
   // 目录

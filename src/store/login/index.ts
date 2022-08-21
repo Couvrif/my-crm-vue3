@@ -3,6 +3,8 @@ import { postLogin, getUsers, getMenus } from '@/service/login/login'
 import { loginParams } from '@/service/login/type'
 import router from '@/router'
 import cache from '@/utils/cache'
+import { mapMenusToRoutes } from '@/utils/initRouter'
+import { toRaw } from 'vue'
 
 interface Menust {
   type: number
@@ -15,7 +17,7 @@ export const loginStore = defineStore('login', {
     return {
       token: '',
       userInfo: {},
-      menus: {}
+      menus: []
     }
   },
   actions: {
@@ -33,7 +35,16 @@ export const loginStore = defineStore('login', {
       this.menus = menusResult.data
       cache.setCache('menus', this.menus)
       console.log('aaaaa', loginResult, this.token, this.userInfo, this.menus)
-      router.push('/home')
+      this.initRouter(menusResult.data)
+      router.push('/main')
+    },
+    initRouter(data: any[]) {
+      // 初始化路由菜单
+      const route = mapMenusToRoutes(data)
+      route.forEach((item) => {
+        router.addRoute('main', item)
+      })
+      console.log(router)
     },
     refreshCache() {
       const token = cache.getCache('token')
@@ -42,6 +53,7 @@ export const loginStore = defineStore('login', {
       this.userInfo = userInfo ?? ''
       const menus = cache.getCache('menus')
       this.menus = menus ?? ''
+      this.initRouter(this.menus)
     }
   }
 })

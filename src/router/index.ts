@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import cache from '@/utils/cache'
+import { firstMenu } from '@/utils/initRouter'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -15,6 +16,10 @@ const routes: Array<RouteRecordRaw> = [
     path: '/main',
     name: 'main',
     component: () => import(/* webpackChunkName: "about" */ '../views/main/main.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/not-found/not-found.vue')
   }
 ]
 
@@ -28,6 +33,12 @@ router.beforeEach((to, from, next) => {
     const token = cache.getCache('token')
     if (!token) return next('/login')
   }
+
+  if (to.path === '/main') {
+    next(firstMenu.url)
+  }
+  console.log(router.getRoutes(), to)
+
   next()
 })
 

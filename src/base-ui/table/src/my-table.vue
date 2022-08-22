@@ -22,7 +22,17 @@
       </template>
     </el-table>
     <div class="footer">
-      <slot name="footer"></slot>
+      <slot name="footer">
+        <el-pagination
+          v-model:currentPage="pageInfo.currentPage"
+          v-model:page-size="pageInfo.pageSize"
+          :page-sizes="[10, 20, 30]"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+        />
+      </slot>
     </div>
   </div>
 </template>
@@ -48,21 +58,40 @@ const props = defineProps({
   showSelectColumn: {
     type: Boolean,
     default: true
+  },
+  pageInfo: {
+    type: Object,
+    default: () => ({ currentPage: 0, pageSize: 10 })
+  },
+  total: {
+    type: Number,
+    default: 0
   }
 })
-const emit = defineEmits(['selectionChange'])
-const { dataList, propList } = toRefs(props)
+const emit = defineEmits(['selectionChange', 'update:page'])
+const { dataList, propList, pageInfo } = toRefs(props)
 
 const handleSelectionChange = (value: any) => {
   console.log('value', value)
   emit('selectionChange', value)
 }
+
+const handleSizeChange = (pageSize: number) => {
+  emit('update:page', { ...props.pageInfo, pageSize })
+}
+
+const handleCurrentChange = (currentPage: number) => {
+  emit('update:page', { ...props.pageInfo, currentPage })
+}
 </script>
 <style lang="less" scoped>
+.my-table {
+  overflow: hidden;
+}
 .header {
   display: flex;
   height: 45px;
-  padding: 0 5px;
+  padding: 5px;
   justify-content: space-between;
   align-items: center;
 
@@ -78,7 +107,7 @@ const handleSelectionChange = (value: any) => {
 
 .footer {
   margin-top: 15px;
-
+  float: right;
   .el-pagination {
     text-align: right;
   }

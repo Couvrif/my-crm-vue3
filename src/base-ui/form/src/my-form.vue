@@ -9,17 +9,32 @@
           <el-col v-bind="colLayout">
             <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type === 'password'">
-                <el-input v-bind="item.otherOptions" :placeholder="item.placeholder" v-model="formData[`${item.field}`]"></el-input>
+                <el-input
+                  v-bind="item.otherOptions"
+                  :placeholder="item.placeholder"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
-                <el-select :placeholder="item.placeholder" v-model="formData[`${item.field}`]">
+                <el-select
+                  :placeholder="item.placeholder"
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                >
                   <template v-for="option in item.options" :key="option.label">
                     <el-option v-bind="item.otherOptions" :value="option.value" :label="option.lable"></el-option>
                   </template>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'daterange'">
-                <el-date-picker v-model="formData[`${item.field}`]" :type="item.type" v-bind="item.otherOptions" :placeholder="item.placeholder"></el-date-picker>
+                <el-date-picker
+                  :model-value="modelValue[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  :type="item.type"
+                  v-bind="item.otherOptions"
+                  :placeholder="item.placeholder"
+                ></el-date-picker>
               </template>
             </el-form-item>
           </el-col>
@@ -36,7 +51,7 @@ import { defineProps, PropType, ref, watch, defineEmits } from 'vue'
 import { IFormItem } from '../type'
 
 const props = defineProps({
-  modelVale: {
+  modelValue: {
     type: Object,
     required: true
   },
@@ -66,11 +81,14 @@ const props = defineProps({
 
 const emits = defineEmits(['update:modelValue'])
 
-const formData = ref({ ...props.modelVale })
+// const formData = ref({ ...props.modelVale })
 
-watch(formData, (newValue) => {
-  emits('update:modelValue', newValue)
-})
+const handleValueChange = (value: any, field: string) => {
+  emits('update:modelValue', { ...props.modelValue, [field]: value })
+}
+// watch(formData, (newValue) => {
+//   emits('update:modelValue', newValue)
+// })
 </script>
 <style lang="less" scoped>
 .my-form {

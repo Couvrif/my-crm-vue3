@@ -3,8 +3,8 @@
     <MyForm v-bind="searchFormConfig" v-model="formData">
       <template #footer>
         <div class="handle-btns">
-          <el-button :icon="Refresh">重置</el-button>
-          <el-button :icon="Search" type="primary">确定</el-button>
+          <el-button :icon="Refresh" @click="handleReset">重置</el-button>
+          <el-button :icon="Search" type="primary" @click="handleQueryClick">搜索</el-button>
         </div>
       </template>
     </MyForm>
@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { Refresh, Search } from '@element-plus/icons-vue'
 import MyForm from '@/base-ui/form'
-import { ref, defineProps } from 'vue'
+import { ref, defineProps, defineEmits } from 'vue'
 
 const props = defineProps({
   searchFormConfig: {
@@ -22,13 +22,23 @@ const props = defineProps({
   }
 })
 
-const formData = ref({
-  id: '',
-  name: '',
-  password: '',
-  sport: '',
-  createTime: ''
-})
+const emits = defineEmits(['queryBtnClick', 'resetBtnClick'])
+
+let searchForm: any = {}
+for (let item of props.searchFormConfig.formItems) {
+  searchForm[item.field] = ''
+}
+
+const formData = ref(searchForm)
+
+const handleReset = () => {
+  formData.value = searchForm
+  emits('resetBtnClick')
+}
+
+const handleQueryClick = () => {
+  emits('queryBtnClick', formData.value)
+}
 </script>
 <style lang="less" scoped>
 .handle-btns {

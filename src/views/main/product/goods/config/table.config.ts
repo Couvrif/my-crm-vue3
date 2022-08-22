@@ -1,23 +1,23 @@
 export const contentTableConfig = {
-  title: '用户列表',
+  title: '商品列表',
   propList: [
     {
       prop: 'name',
-      label: '用户名',
+      label: '商品名称',
       minWidth: '100',
       soltName: 'name'
     },
     {
-      prop: 'realname',
-      label: '真实姓名',
+      prop: 'oldPrice',
+      label: '原价格',
       minWidth: '100',
-      soltName: 'realname'
+      soltName: 'oldPrice'
     },
     {
-      prop: 'cellphone',
-      label: '手机号码',
+      prop: 'newPrice',
+      label: '现价格',
       minWidth: '100',
-      soltName: 'cellphone'
+      soltName: 'newPrice'
     },
     {
       prop: 'enable',

@@ -1,51 +1,47 @@
-import { IForm, IFormItem } from '@/base-ui/form'
+import { IForm } from '@/base-ui/form'
 
-export const formConfig: IForm = {
+export const searchFormConfig: IForm = {
   labelWidth: '100px',
   itemStyle: { padding: '10px 40px' },
   formItems: [
     {
-      field: 'id',
-      type: 'input',
-      label: '用户名',
-      placeholder: '请输入用户名'
-    },
-    {
       field: 'name',
       type: 'input',
-      label: '用户名',
+      label: '用户名：',
       placeholder: '请输入用户名'
     },
     {
-      field: 'password',
+      field: 'realname',
       type: 'input',
-      label: '密码',
-      placeholder: '请输入密码'
+      label: '真实姓名：',
+      placeholder: '请输入真实姓名'
     },
     {
-      field: 'sport',
+      field: 'cellphone',
+      type: 'input',
+      label: '电话号码：',
+      placeholder: '请输入电话号码'
+    },
+    {
+      field: 'enable',
       type: 'select',
-      label: '运动',
-      placeholder: '请选择你喜欢的运动',
+      label: '用户状态：',
+      placeholder: '请选择用户状态',
       options: [
         {
-          key: '篮球',
-          value: 'backupball'
+          key: '启用',
+          value: 1
         },
         {
-          key: '足球',
-          value: 'football'
-        },
-        {
-          key: '桌球',
-          value: 'tableball'
+          key: '禁用',
+          value: 0
         }
       ]
     },
     {
-      field: 'createTime',
+      field: 'createAt',
       type: 'daterange',
-      label: '创建时间',
+      label: '创建时间：',
       placeholder: '请选择你创建的时间',
       otherOptions: {
         'start-placeholder': '开始时间',

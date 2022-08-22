@@ -1,29 +1,17 @@
 export const contentTableConfig = {
-  title: '用户列表',
+  title: '角色列表',
   propList: [
     {
       prop: 'name',
-      label: '用户名',
+      label: '角色名',
       minWidth: '100',
       soltName: 'name'
     },
     {
-      prop: 'realname',
-      label: '真实姓名',
+      prop: 'intro',
+      label: '权限介绍',
       minWidth: '100',
-      soltName: 'realname'
-    },
-    {
-      prop: 'cellphone',
-      label: '手机号码',
-      minWidth: '100',
-      soltName: 'cellphone'
-    },
-    {
-      prop: 'enable',
-      label: '状态',
-      minWidth: '100',
-      soltName: 'enable'
+      soltName: 'intro'
     },
     {
       prop: 'createAt',

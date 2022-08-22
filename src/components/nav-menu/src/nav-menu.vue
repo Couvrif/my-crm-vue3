@@ -4,7 +4,14 @@
       <img class="img" src="~@/assets/img/logo.svg" alt="logo" />
       <span class="title">CHENN_CMS</span>
     </div>
-    <el-menu :default-active="defaultValue" class="el-menu-vertical" background-color="#0c2135" :collapse="isCollapse" text-color="#b7bdc3" active-text-color="#0a60bd">
+    <el-menu
+      :default-active="defaultValue"
+      class="el-menu-vertical"
+      background-color="#0c2135"
+      :collapse="isCollapse"
+      text-color="#b7bdc3"
+      active-text-color="#0a60bd"
+    >
       <template v-for="item in menus" :key="item.id">
         <template v-if="item.children && item.children.length">
           <el-sub-menu v-if="item.type === 1" :index="item.id + ''">

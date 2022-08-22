@@ -8,13 +8,13 @@
         </div>
       </slot>
     </div>
-    <el-table :data="dataList" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table :data="dataList" border style="width: 100%" @selection-change="handleSelectionChange" v-bind="childrenProps">
       <el-table-column v-if="showSelectColumn" type="selection" align="center" width="60px"></el-table-column>
       <el-table-column v-if="showIndexColumn" type="index" label="序号" align="center" width="80px"></el-table-column>
       <template v-for="item in propList" :key="item.prop">
-        <el-table-column v-bind="item" align="center">
+        <el-table-column v-bind="item" align="center" show-overflow-tooltip>
           <template #default="scope">
-            <slot :name="item.soltName" :row="scope.row">
+            <slot :name="item.slotName" :row="scope.row">
               {{ scope.row[item.prop] }}
             </slot>
           </template>
@@ -66,6 +66,10 @@ const props = defineProps({
   total: {
     type: Number,
     default: 0
+  },
+  childrenProps: {
+    type: Object,
+    default: () => ({})
   }
 })
 const emit = defineEmits(['selectionChange', 'update:page'])

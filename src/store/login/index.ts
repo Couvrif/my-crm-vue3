@@ -3,7 +3,7 @@ import { postLogin, getUsers, getMenus } from '@/service/login/login'
 import { loginParams } from '@/service/login/type'
 import router from '@/router'
 import cache from '@/utils/cache'
-import { mapMenusToRoutes } from '@/utils/initRouter'
+import { mapMenusToPermissions, mapMenusToRoutes } from '@/utils/initRouter'
 import { toRaw } from 'vue'
 
 interface Menust {
@@ -17,7 +17,8 @@ export const loginStore = defineStore('login', {
     return {
       token: '',
       userInfo: {},
-      menus: []
+      menus: [],
+      permissions: ['']
     }
   },
   actions: {
@@ -44,7 +45,8 @@ export const loginStore = defineStore('login', {
       route.forEach((item) => {
         router.addRoute('main', item)
       })
-      console.log(router)
+      this.permissions = mapMenusToPermissions(route)
+      console.log('初始化数据', router, this.permissions)
     },
     refreshCache() {
       const token = cache.getCache('token')

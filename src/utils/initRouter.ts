@@ -54,3 +54,18 @@ export function pathMapToMenu(userMenus: any[], currentPath: string, breadcrumbs
     }
   }
 }
+
+export function mapMenusToPermissions(userMenus: any[]) {
+  const permission: string[] = []
+  const _recurseGetPermission = (menus: any[]) => {
+    for (const menu of menus) {
+      if (menu.type === 1 || menu.type === 2) {
+        _recurseGetPermission(menu ?? [])
+      } else if (menu.type === 3) {
+        permission.push(menu.permission)
+      }
+    }
+  }
+  _recurseGetPermission(userMenus)
+  return permission
+}

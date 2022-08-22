@@ -1,7 +1,13 @@
 <template>
   <div class="goods">
     <pageSearch :searchFormConfig="searchFormConfig" @queryBtnClick="queryBtnClick" @resetBtnClick="resetBtnClick"></pageSearch>
-    <pageContent ref="pageContentRef" :contentTableConfig="contentTableConfig" :urlName="urlName"></pageContent>
+    <pageContent ref="pageContentRef" :contentTableConfig="contentTableConfig" :urlName="urlName">
+      <template #imgSlot="{ row }">
+        <el-image style="width: 100px; height: 100px" :src="row.imgUrl" :preview-src-list="[row.imgUrl]" />
+      </template>
+      <template #oldPrice="{ row }">{{ '￥' + row.oldPrice }}</template>
+      <template #newPrice="{ row }">{{ '￥' + row.newPrice }}</template>
+    </pageContent>
   </div>
 </template>
 

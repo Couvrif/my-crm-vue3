@@ -1,18 +1,17 @@
 <template>
-  <div class="menu">
-    <h2>menu</h2>
+  <div class="role">
+    <!-- <pageSearch :searchFormConfig="searchFormConfig"></pageSearch> -->
+    <pageContent :contentTableConfig="contentTableConfig" :urlName="urlName"></pageContent>
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script setup lang="ts">
+import pageContent from '@/components/page-content'
+import pageSearch from '@/components/page-search'
+import { searchFormConfig } from './config/search.config'
+import { contentTableConfig } from './config/table.config'
 
-export default defineComponent({
-  name: 'menu',
-  setup() {
-    return {}
-  }
-})
+const urlName = 'menu/list'
 </script>
 
 <style scoped></style>

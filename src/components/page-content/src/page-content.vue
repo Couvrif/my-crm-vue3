@@ -3,13 +3,13 @@
     <Mytable :dataList="dataList" :total="total" v-model:page="pageInfo" v-bind="contentTableConfig" @handleSelectionChange="handleSelectionChange">
       <!-- 表格外操作栏插槽 -->
       <template #headerHandler>
-        <el-button type="primary" size="medium">新建用户</el-button>
+        <el-button type="primary" v-if="isCreate">新建用户</el-button>
         <el-button :icon="Refresh"></el-button>
       </template>
 
-      <!-- 数据栏插槽         -->
-      <template #enable="{ row }">
-        <el-button plain size="mini" :type="!row.enable ? 'error' : 'success'">{{ !row.enable ? '禁用' : '启用' }}</el-button>
+      <!-- 数据栏公用插槽         -->
+      <template #status="{ row }">
+        <el-button plain size="small" :type="!row.enable ? 'error' : 'success'">{{ !row.status ? '禁用' : '启用' }}</el-button>
       </template>
       <template #createAt="{ row }">
         {{ $filters.formatTime(row.createAt) }}
@@ -17,9 +17,16 @@
       <template #updateAt="{ row }">
         {{ $filters.formatTime(row.updateAt) }}
       </template>
+
       <template #handler>
-        <el-button type="text" size="mini">编辑</el-button>
-        <el-button type="text" size="mini">删除</el-button>
+        <el-button type="primary" size="small" v-if="isUpdate">编辑</el-button>
+        <el-button type="primary" size="small" v-if="isDelete">删除</el-button>
+      </template>
+
+      <template v-for="item in otherPropSlots" :key="item.prop" #[item.slotName]="{ row }">
+        <template v-if="item.slotName">
+          <slot :name="item.slotName" :row="row"></slot>
+        </template>
       </template>
     </Mytable>
   </div>
@@ -31,6 +38,7 @@ import Mytable from '@/base-ui/table'
 import { defineProps, defineExpose, ref, watch } from 'vue'
 import { getPageListData } from '@/service/main/system/system'
 import { DataType } from '@/service/login/type'
+import { usePermission } from '@/hooks/usePermission'
 
 let dataList = ref<DataType[]>([])
 let pageInfo = ref({ currentPage: 0, pageSize: 10 })
@@ -64,13 +72,26 @@ const getPageList = (query: any = {}) => {
 getPageList()
 defineExpose({ getPageList })
 
+watch(pageInfo, () => {
+  getPageList()
+})
+
 const handleSelectionChange = (value: any) => {
   console.log(value)
 }
 
-watch(pageInfo, () => {
-  getPageList()
+const otherPropSlots = props.contentTableConfig?.propList.filter((item: any) => {
+  if (item.slotName === 'status') return false
+  if (item.slotName === 'createAt') return false
+  if (item.slotName === 'updateAt') return false
+  if (item.slotName === 'handler') return false
+  return true
 })
+
+const isCreate = usePermission(props.urlName.split('/')[0], 'create')
+const isUpdate = usePermission(props.urlName.split('/')[0], 'update')
+const isDelete = usePermission(props.urlName.split('/')[0], 'delete')
+const isQuery = usePermission(props.urlName.split('/')[0], 'query')
 </script>
 
 <style scoped lang="less">

@@ -5,30 +5,30 @@ export const contentTableConfig = {
       prop: 'name',
       label: '角色名',
       minWidth: '100',
-      soltName: 'name'
+      slotName: 'name'
     },
     {
       prop: 'intro',
       label: '权限介绍',
       minWidth: '100',
-      soltName: 'intro'
+      slotName: 'intro'
     },
     {
       prop: 'createAt',
       label: '创建时间',
       minWidth: '100',
-      soltName: 'createAt'
+      slotName: 'createAt'
     },
     {
       prop: 'updateAt',
       label: '更新时间',
       minWidth: '100',
-      soltName: 'updateAt'
+      slotName: 'updateAt'
     },
     {
       label: '操作',
       minWidth: '80',
-      soltName: 'handler'
+      slotName: 'handler'
     }
   ],
   showIndexColumn: true,

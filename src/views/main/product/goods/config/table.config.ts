@@ -29,7 +29,7 @@ export const contentTableConfig = {
       prop: 'imgUrl',
       label: '商品图片',
       minWidth: '100',
-      slotName: 'imgSlot'
+      slotName: 'imgUrl'
     },
     {
       prop: 'createAt',

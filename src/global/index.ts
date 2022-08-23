@@ -1,6 +1,7 @@
 import { App } from 'vue'
-import { registerPropties } from './register-properties'
+import { registerPropties, registerMitt } from './register-properties'
 
 export function globalRegister(app: App) {
   app.use(registerPropties)
+  app.use(registerMitt)
 }

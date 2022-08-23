@@ -45,7 +45,7 @@ export const loginStore = defineStore('login', {
       route.forEach((item) => {
         router.addRoute('main', item)
       })
-      this.permissions = mapMenusToPermissions(route)
+      this.permissions = mapMenusToPermissions(data)
       console.log('初始化数据', router, this.permissions)
     },
     refreshCache() {

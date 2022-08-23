@@ -11,7 +11,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'max-len': ['error', { code: 150 }]
+    'max-len': ['error', { code: 150 }],
+    'linebreak-style': [0, 'error', 'windows']
   },
   overrides: [
     {

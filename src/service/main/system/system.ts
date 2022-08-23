@@ -7,3 +7,9 @@ export async function getPageListData(url: string, baseInfo: any, queryInfo: any
     data: { ...baseInfo, ...queryInfo }
   })
 }
+
+export async function deletePageData(url: string) {
+  return myRequest.delete<DataType>({
+    url: url
+  })
+}

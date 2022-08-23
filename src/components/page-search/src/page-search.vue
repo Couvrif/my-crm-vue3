@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { Refresh, Search } from '@element-plus/icons-vue'
 import MyForm from '@/base-ui/form'
-import { ref, defineProps, defineEmits } from 'vue'
+import { ref, defineProps, defineEmits, getCurrentInstance } from 'vue'
 
 const props = defineProps({
   searchFormConfig: {
@@ -39,6 +39,12 @@ const handleReset = () => {
 const handleQueryClick = () => {
   emits('queryBtnClick', formData.value)
 }
+
+const instance = getCurrentInstance()
+
+instance?.proxy?.$Bus.on('handleQuery', () => {
+  return handleQueryClick()
+})
 </script>
 <style lang="less" scoped>
 .handle-btns {

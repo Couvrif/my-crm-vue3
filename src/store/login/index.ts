@@ -5,6 +5,7 @@ import router from '@/router'
 import cache from '@/utils/cache'
 import { mapMenusToPermissions, mapMenusToRoutes } from '@/utils/initRouter'
 import { toRaw } from 'vue'
+import { getPageListData } from '@/service/main/system/system'
 
 interface Menust {
   type: number
@@ -18,7 +19,9 @@ export const loginStore = defineStore('login', {
       token: '',
       userInfo: {},
       menus: [],
-      permissions: ['']
+      permissions: [''],
+      entireDepartment: [],
+      entireRole: []
     }
   },
   actions: {
@@ -46,6 +49,7 @@ export const loginStore = defineStore('login', {
         router.addRoute('main', item)
       })
       this.permissions = mapMenusToPermissions(data)
+      this.initEntire()
       console.log('初始化数据', router, this.permissions)
     },
     refreshCache() {
@@ -56,6 +60,20 @@ export const loginStore = defineStore('login', {
       const menus = cache.getCache('menus')
       this.menus = menus ?? ''
       this.initRouter(this.menus)
+    },
+    async initEntire() {
+      const departmentData = await getPageListData('/department/list', {
+        offset: 0,
+        size: 1000
+      })
+
+      const roleData = await getPageListData('/role/list', {
+        offset: 0,
+        size: 1000
+      })
+      this.entireDepartment = departmentData.data.list
+      this.entireRole = roleData.data.list
+      console.log(this.entireRole, this.entireDepartment)
     }
   }
 })

@@ -7,13 +7,14 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
+            <el-form-item v-if="!item.isHidden" :label="item.label" :rules="item.rules" :style="itemStyle">
               <template v-if="item.type === 'input' || item.type === 'password'">
                 <el-input
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
                   :model-value="modelValue[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
+                  :type="item.type === 'password' ? 'password' : 'text'"
                 ></el-input>
               </template>
               <template v-else-if="item.type === 'select'">
@@ -21,14 +22,16 @@
                   :placeholder="item.placeholder"
                   :model-value="modelValue[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
+                  style="width: 100%"
                 >
                   <template v-for="option in item.options" :key="option.label">
-                    <el-option v-bind="item.otherOptions" :value="option.value" :label="option.lable"></el-option>
+                    <el-option v-bind="item.otherOptions" :value="option.value" :label="option.title"></el-option>
                   </template>
                 </el-select>
               </template>
               <template v-else-if="item.type === 'daterange'">
                 <el-date-picker
+                  style="width: 100%"
                   :model-value="modelValue[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
                   :type="item.type"

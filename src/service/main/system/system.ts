@@ -13,3 +13,17 @@ export async function deletePageData(url: string) {
     url: url
   })
 }
+
+export async function createPageData(url: string, newData: any) {
+  return myRequest.post<DataType>({
+    url: url,
+    data: newData
+  })
+}
+
+export async function updatePageData(url: string, newData: any) {
+  return myRequest.patch<DataType>({
+    url: url,
+    data: newData
+  })
+}

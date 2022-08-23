@@ -6,6 +6,7 @@ export interface IFormItem {
   label: string
   rules?: any[]
   placeholder?: any
+  isHidden?: boolean
 
   // 对于select
   options?: any[]

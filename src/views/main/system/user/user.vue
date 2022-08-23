@@ -8,7 +8,7 @@
       @handleUpdateData="handleUpdateData"
       @handleNewData="handleNewData"
     ></pageContent>
-    <pageModal :defaultInfo="defaultInfo" ref="pageModalRef" :modalConfig="modalConfig"></pageModal>
+    <pageModal :urlName="urlName" :defaultInfo="defaultInfo" ref="pageModalRef" :modalConfig="modalConfigRes"></pageModal>
   </div>
 </template>
 <script lang="ts" setup>
@@ -19,26 +19,49 @@ import pageSearch from '@/components/page-search'
 import pageContent from '@/components/page-content'
 import pageModal from '@/components/page-modal'
 import { usePageSearch } from '@/hooks/usePageSearch'
-import { ref } from 'vue'
+import { usePageModal } from '@/hooks/usePageModal'
+import Store from '@/store'
+import { ref, computed } from 'vue'
 
 const urlName = 'users/list'
 
+const { login } = Store()
+console.log(login, '别搞笑')
+
+const newCallback = () => {
+  const psw = modalConfig.formItems.find((item) => {
+    return item.field === 'password'
+  })
+  if (psw) psw.isHidden = false
+}
+
+const updateCallback = () => {
+  const psw = modalConfig.formItems.find((item) => {
+    return item.field === 'password'
+  })
+  if (psw) psw.isHidden = true
+}
+
+const modalConfigRes = computed(() => {
+  const roleItem = modalConfig.formItems.find((item) => {
+    return item.field === 'roleId'
+  })
+
+  roleItem!.options = login.entireRole.map((value: { name: any; id: any }) => {
+    return { title: value.name, value: value.id }
+  })
+
+  const departmentItem = modalConfig.formItems.find((item) => {
+    return item.field === 'departmentId'
+  })
+
+  departmentItem!.options = login.entireDepartment.map((value: { name: any; id: any }) => {
+    return { title: value.name, value: value.id }
+  })
+  return modalConfig
+})
+
 const { pageContentRef, queryBtnClick, resetBtnClick } = usePageSearch()
-
-const pageModalRef = ref<InstanceType<typeof pageModal>>()
-const defaultInfo = ref({})
-
-const handleUpdateData = (item: any) => {
-  defaultInfo.value = item
-  if (pageModalRef.value) {
-    pageModalRef.value.centerDialogVisible = true
-  }
-}
-
-const handleNewData = () => {
-  if (pageModalRef.value) {
-    pageModalRef.value.centerDialogVisible = true
-  }
-}
+const { pageModalRef, handleNewData, handleUpdateData, defaultInfo } = usePageModal(newCallback, updateCallback)
 </script>
 <style lang="less" scoped></style>

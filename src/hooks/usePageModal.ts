@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 import pageModal from '@/components/page-modal'
 
-type funType = () => void
+type funType = (item?: any) => void
 
-export function usePageModal(newFn: funType, updateFn: funType) {
+export function usePageModal(newFn?: funType, updateFn?: funType) {
   const pageModalRef = ref<InstanceType<typeof pageModal>>()
   const defaultInfo = ref({})
 
@@ -12,7 +12,7 @@ export function usePageModal(newFn: funType, updateFn: funType) {
     if (pageModalRef.value) {
       pageModalRef.value.centerDialogVisible = true
     }
-    updateFn()
+    updateFn && updateFn(item)
   }
 
   const handleNewData = () => {
@@ -20,7 +20,7 @@ export function usePageModal(newFn: funType, updateFn: funType) {
     if (pageModalRef.value) {
       pageModalRef.value.centerDialogVisible = true
     }
-    newFn()
+    newFn && newFn()
   }
   return { pageModalRef, defaultInfo, handleNewData, handleUpdateData }
 }

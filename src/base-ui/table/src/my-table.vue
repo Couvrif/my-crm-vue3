@@ -2,7 +2,7 @@
   <div class="my-table">
     <div class="header">
       <slot name="header">
-        <div class="title">{{ title }}</div>
+        <div class="title">{{ title + '列表' }}</div>
         <div class="handler">
           <slot name="headerHandler"></slot>
         </div>

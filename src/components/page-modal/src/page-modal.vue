@@ -2,6 +2,7 @@
   <div class="page-modal">
     <el-dialog v-model="centerDialogVisible" title="新建用户" width="26%" center destroy-on-close>
       <MyForm v-bind="modalConfig" v-model="formData"></MyForm>
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="centerDialogVisible = false">取消</el-button>
@@ -15,7 +16,6 @@
 <script setup lang="ts">
 import { ref, defineProps, defineExpose, watch, getCurrentInstance } from 'vue'
 import MyForm from '@/base-ui/form'
-import { modalConfig } from '@/views/main/system/user/config/modal.config'
 import { createPageData, updatePageData } from '@/service/main/system/system'
 
 const instance = getCurrentInstance()
@@ -34,6 +34,10 @@ const props = defineProps({
   urlName: {
     type: String,
     required: true
+  },
+  otherInfo: {
+    type: Object,
+    default: () => ({})
   }
 })
 
@@ -51,10 +55,10 @@ watch(
 const handleConfirmClick = async () => {
   const pageName = props.urlName.split('/')[0]
   if (Object.keys(props.defaultInfo).length > 0) {
-    const res = await updatePageData(`/${pageName}/${props.defaultInfo.id}`, { ...formData.value })
+    const res = await updatePageData(`/${pageName}/${props.defaultInfo.id}`, { ...formData.value, ...props.otherInfo })
     console.log('res', res)
   } else {
-    const res = await createPageData(`/${pageName}`, { ...formData.value })
+    const res = await createPageData(`/${pageName}`, { ...formData.value, ...props.otherInfo })
     console.log('res', res)
   }
   instance?.proxy?.$Bus.emit('handleQuery')

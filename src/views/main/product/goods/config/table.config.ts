@@ -1,5 +1,5 @@
 export const contentTableConfig = {
-  title: '商品列表',
+  title: '商品',
   propList: [
     {
       prop: 'name',

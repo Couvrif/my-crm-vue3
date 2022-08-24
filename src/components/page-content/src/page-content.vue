@@ -3,7 +3,7 @@
     <Mytable :dataList="dataList" :total="total" v-model:page="pageInfo" v-bind="contentTableConfig" @handleSelectionChange="handleSelectionChange">
       <!-- 表格外操作栏插槽 -->
       <template #headerHandler>
-        <el-button type="primary" @click="handleNewData">新建用户</el-button>
+        <el-button type="primary" @click="handleNewData">{{ '新建' + contentTableConfig.title }}</el-button>
         <el-button :icon="Refresh"></el-button>
       </template>
 

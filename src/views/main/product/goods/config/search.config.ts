@@ -16,7 +16,7 @@ export const searchFormConfig: IForm = {
       placeholder: '请输入原价格'
     },
     {
-      field: 'createTime',
+      field: 'createAt',
       type: 'daterange',
       label: '创建时间：',
       placeholder: '请选择你创建的时间',

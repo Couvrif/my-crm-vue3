@@ -21,7 +21,8 @@ export const loginStore = defineStore('login', {
       menus: [],
       permissions: [''],
       entireDepartment: [],
-      entireRole: []
+      entireRole: [],
+      entireMenu: []
     }
   },
   actions: {
@@ -71,9 +72,15 @@ export const loginStore = defineStore('login', {
         offset: 0,
         size: 1000
       })
+
+      const menuData = await getPageListData('/menu/list', {
+        offset: 0,
+        size: 1000
+      })
       this.entireDepartment = departmentData.data.list
       this.entireRole = roleData.data.list
-      console.log(this.entireRole, this.entireDepartment)
+      this.entireMenu = menuData.data.list
+      console.log(this.entireRole, this.entireDepartment, this.entireMenu)
     }
   }
 })

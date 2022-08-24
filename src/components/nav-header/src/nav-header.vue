@@ -16,7 +16,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item @click="handleOut">退出登录</el-dropdown-item>
               <el-dropdown-item>用户信息</el-dropdown-item>
               <el-dropdown-item>系统管理</el-dropdown-item>
             </el-dropdown-menu>
@@ -31,11 +31,15 @@
 import { Expand, Fold, User } from '@element-plus/icons-vue'
 import myBreadcrumbVue from '@/base-ui/breadcrumb/src/my-breadcrumb.vue'
 import { pathMapBreadcrumbs } from '@/utils/initRouter'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import cache from '@/utils/cache'
 import store from '@/store'
 import { ref, defineEmits, computed } from 'vue'
+import { ElMessageBox } from 'element-plus/lib/index'
+import 'element-plus/theme-chalk/index.css'
 
 const { login } = store()
+const router = useRouter()
 const emits = defineEmits(['foldChange'])
 
 const isFold = ref(Expand)
@@ -57,6 +61,17 @@ const breadcrumbs = computed(() => {
   const currentPath = route.path
   return pathMapBreadcrumbs(userMenus, currentPath)
 })
+
+const handleOut = () => {
+  ElMessageBox.confirm('您确定要退出登录嘛?')
+    .then(() => {
+      cache.deleteCache('token')
+      router.push('/main')
+    })
+    .catch(() => {
+      // catch error
+    })
+}
 </script>
 
 <style scoped lang="less">

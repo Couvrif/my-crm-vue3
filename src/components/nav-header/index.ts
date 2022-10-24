@@ -1,3 +1,3 @@
-import navHeaderVue from './src/nav-header.vue'
+import navHeaderVue from "./src/nav-header.vue";
 
-export default navHeaderVue
+export default navHeaderVue;

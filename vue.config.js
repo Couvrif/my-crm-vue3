@@ -1,43 +1,43 @@
-const path = require('path')
-const { defineConfig } = require('@vue/cli-service')
-const AutoImport = require('unplugin-auto-import/webpack')
-const Components = require('unplugin-vue-components/webpack')
-const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+const path = require("path");
+const { defineConfig } = require("@vue/cli-service");
+const AutoImport = require("unplugin-auto-import/webpack");
+const Components = require("unplugin-vue-components/webpack");
+const { ElementPlusResolver } = require("unplugin-vue-components/resolvers");
 
 //defineConfig帮手函数
 module.exports = defineConfig({
   transpileDependencies: true,
-  outputDir: './build',
+  outputDir: "./build",
   devServer: {
     proxy: {
-      '/api': {
-        target: 'http://152.136.185.210:5000/',
+      "/api": {
+        target: "http://152.136.185.210:5000/",
         pathRewrite: {
-          '^/api': ''
+          "^/api": "",
         },
-        logLevel: 'debug',
+        logLevel: "debug",
         ws: true,
-        changeOrigin: true
-      }
-    }
+        changeOrigin: true,
+      },
+    },
   },
   configureWebpack: {
     resolve: {
       alias: {
-        components: '@/components',
-        views: '@/views'
-      }
+        components: "@/components",
+        views: "@/views",
+      },
     },
     //配置webpack自动按需引入element-plus，
     plugins: [
       AutoImport({
-        resolvers: [ElementPlusResolver()]
+        resolvers: [ElementPlusResolver()],
       }),
       Components({
-        resolvers: [ElementPlusResolver()]
-      })
-    ]
-  }
+        resolvers: [ElementPlusResolver()],
+      }),
+    ],
+  },
   // configureWebpack: {
   //   resolve: {
   //     alias: {
@@ -56,4 +56,4 @@ module.exports = defineConfig({
   //     .set('@', path.resolve(__dirname, 'src'))
   //     .set('views', '@/views')
   // }
-})
+});

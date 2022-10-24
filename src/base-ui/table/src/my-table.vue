@@ -2,15 +2,32 @@
   <div class="my-table">
     <div class="header">
       <slot name="header">
-        <div class="title">{{ title + '列表' }}</div>
+        <div class="title">{{ title + "列表" }}</div>
         <div class="handler">
           <slot name="headerHandler"></slot>
         </div>
       </slot>
     </div>
-    <el-table :data="dataList" border style="width: 100%" @selection-change="handleSelectionChange" v-bind="childrenProps">
-      <el-table-column v-if="showSelectColumn" type="selection" align="center" width="60px"></el-table-column>
-      <el-table-column v-if="showIndexColumn" type="index" label="序号" align="center" width="80px"></el-table-column>
+    <el-table
+      :data="dataList"
+      border
+      style="width: 100%"
+      @selection-change="handleSelectionChange"
+      v-bind="childrenProps"
+    >
+      <el-table-column
+        v-if="showSelectColumn"
+        type="selection"
+        align="center"
+        width="60px"
+      ></el-table-column>
+      <el-table-column
+        v-if="showIndexColumn"
+        type="index"
+        label="序号"
+        align="center"
+        width="80px"
+      ></el-table-column>
       <template v-for="item in propList" :key="item.prop">
         <el-table-column v-bind="item" align="center" show-overflow-tooltip>
           <template #default="scope">
@@ -37,56 +54,56 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, defineEmits, toRefs, PropType } from 'vue'
+import { defineProps, defineEmits, toRefs, PropType } from "vue";
 const props = defineProps({
   title: {
     type: String,
-    default: '列表'
+    default: "列表",
   },
   dataList: {
     type: Array,
-    required: true
+    required: true,
   },
   propList: {
     type: Array as PropType<any[]>,
-    required: true
+    required: true,
   },
   showIndexColumn: {
     type: Boolean,
-    default: true
+    default: true,
   },
   showSelectColumn: {
     type: Boolean,
-    default: true
+    default: true,
   },
   pageInfo: {
     type: Object,
-    default: () => ({ currentPage: 1, pageSize: 10 })
+    default: () => ({ currentPage: 1, pageSize: 10 }),
   },
   total: {
     type: Number,
-    default: 0
+    default: 0,
   },
   childrenProps: {
     type: Object,
-    default: () => ({})
-  }
-})
-const emit = defineEmits(['selectionChange', 'update:page'])
-const { dataList, propList, pageInfo } = toRefs(props)
+    default: () => ({}),
+  },
+});
+const emit = defineEmits(["selectionChange", "update:page"]);
+const { dataList, propList, pageInfo } = toRefs(props);
 
 const handleSelectionChange = (value: any) => {
-  console.log('value', value)
-  emit('selectionChange', value)
-}
+  console.log("value", value);
+  emit("selectionChange", value);
+};
 
 const handleSizeChange = (pageSize: number) => {
-  emit('update:page', { ...props.pageInfo, pageSize })
-}
+  emit("update:page", { ...props.pageInfo, pageSize });
+};
 
 const handleCurrentChange = (currentPage: number) => {
-  emit('update:page', { ...props.pageInfo, currentPage })
-}
+  emit("update:page", { ...props.pageInfo, currentPage });
+};
 </script>
 <style lang="less" scoped>
 .my-table {

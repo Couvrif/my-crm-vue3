@@ -1,45 +1,48 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import cache from '@/utils/cache'
-import { firstMenu } from '@/utils/initRouter'
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import cache from "@/utils/cache";
+import { firstMenu } from "@/utils/initRouter";
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '/',
-    redirect: '/main'
+    path: "/",
+    redirect: "/main",
   },
   {
-    path: '/login',
-    name: 'login',
-    component: () => import(/* webpackChunkName: "about" */ '../views//login/login.vue')
+    path: "/login",
+    name: "login",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views//login/login.vue"),
   },
   {
-    path: '/main',
-    name: 'main',
-    component: () => import(/* webpackChunkName: "about" */ '../views/main/main.vue')
+    path: "/main",
+    name: "main",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/main/main.vue"),
   },
   {
-    path: '/:pathMatch(.*)*',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/not-found/not-found.vue')
-  }
-]
+    path: "/:pathMatch(.*)*",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "@/views/not-found/not-found.vue"),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
 router.beforeEach((to, from, next) => {
-  if (to.path !== '/login') {
-    const token = cache.getCache('token')
-    if (!token) return next('/login')
+  if (to.path !== "/login") {
+    const token = cache.getCache("token");
+    if (!token) return next("/login");
   }
 
-  if (to.path === '/main') {
-    next(firstMenu.url)
+  if (to.path === "/main") {
+    next(firstMenu.url);
   }
-  console.log(router.getRoutes(), to)
+  console.log(router.getRoutes(), to);
 
-  next()
-})
+  next();
+});
 
-export default router
+export default router;

@@ -1,5 +1,5 @@
-import MyForm from './src/my-form.vue'
+import MyForm from "./src/my-form.vue";
 
-export * from './type'
+export * from "./type";
 
-export default MyForm
+export default MyForm;

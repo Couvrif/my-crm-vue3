@@ -8,10 +8,21 @@
       <div class="bread">
         <myBreadcrumbVue :breadcrumbs="breadcrumbs"></myBreadcrumbVue>
       </div>
+
       <div class="user-info">
+        <div class="svg">
+          <fullCpn></fullCpn>
+          <svgCpn name="jingzi"></svgCpn>
+          <div>切换主题</div>
+          <el-switch v-model="isDark" @change="switchTheme" />
+        </div>
+
         <el-dropdown>
           <span class="el-dropdown-link">
-            <el-avatar :size="30" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+            <el-avatar
+              :size="30"
+              src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+            />
             <span>{{ name }}</span>
           </span>
           <template #dropdown>
@@ -28,50 +39,62 @@
 </template>
 
 <script setup lang="ts">
-import { Expand, Fold, User } from '@element-plus/icons-vue'
-import myBreadcrumbVue from '@/base-ui/breadcrumb/src/my-breadcrumb.vue'
-import { pathMapBreadcrumbs } from '@/utils/initRouter'
-import { useRoute, useRouter } from 'vue-router'
-import cache from '@/utils/cache'
-import store from '@/store'
-import { ref, defineEmits, computed } from 'vue'
-import { ElMessageBox } from 'element-plus/lib/index'
-import 'element-plus/theme-chalk/index.css'
+import { Expand, Fold, User } from "@element-plus/icons-vue";
+import myBreadcrumbVue from "@/base-ui/breadcrumb/src/my-breadcrumb.vue";
+import { pathMapBreadcrumbs } from "@/utils/initRouter";
+import { useRoute, useRouter } from "vue-router";
+import cache from "@/utils/cache";
+import store from "@/store";
+import { ref, defineEmits, computed } from "vue";
+import { ElMessageBox } from "element-plus/lib/index";
+import "element-plus/theme-chalk/index.css";
+import svgCpn from "@/base-ui/svgIcons";
+import fullCpn from "@/base-ui/fullScreen";
 
-const { login } = store()
-const router = useRouter()
-const emits = defineEmits(['foldChange'])
+const { login } = store();
+const router = useRouter();
+const emits = defineEmits(["foldChange"]);
 
-const isFold = ref(Expand)
-const name = login.userInfo.name
+const isFold = ref(Expand);
+const name = login.userInfo.name;
 
 const handleFoldClick = () => {
-  if (isFold.value.name === 'Fold') {
-    isFold.value = Expand
+  if (isFold.value.name === "Fold") {
+    isFold.value = Expand;
   } else {
-    isFold.value = Fold
+    isFold.value = Fold;
   }
-  emits('foldChange', isFold.value.name)
-  return isFold
-}
+  emits("foldChange", isFold.value.name);
+  return isFold;
+};
 
 const breadcrumbs = computed(() => {
-  const userMenus = login.menus
-  const route = useRoute()
-  const currentPath = route.path
-  return pathMapBreadcrumbs(userMenus, currentPath)
-})
+  const userMenus = login.menus;
+  const route = useRoute();
+  const currentPath = route.path;
+  return pathMapBreadcrumbs(userMenus, currentPath);
+});
 
 const handleOut = () => {
-  ElMessageBox.confirm('您确定要退出登录嘛?')
+  ElMessageBox.confirm("您确定要退出登录嘛?")
     .then(() => {
-      cache.deleteCache('token')
-      router.push('/main')
+      cache.deleteCache("token");
+      router.push("/main");
     })
     .catch(() => {
       // catch error
-    })
-}
+    });
+};
+
+const isDark = ref(false);
+const switchTheme = () => {
+  const body = document.documentElement;
+  if (isDark.value) {
+    body.setAttribute("class", "dark");
+  } else {
+    body.setAttribute("class", "");
+  }
+};
 </script>
 
 <style scoped lang="less">
@@ -93,6 +116,17 @@ const handleOut = () => {
     align-items: center;
     flex: 1;
     padding: 0 18px;
+
+    .user-info {
+      display: flex;
+      align-items: center;
+
+      .svg {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+      }
+    }
 
     .el-icon {
       font-size: 20px;

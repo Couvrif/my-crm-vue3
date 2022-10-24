@@ -39,33 +39,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, toRefs } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import Store from '@/store'
-import { pathMapToMenu } from '@/utils/initRouter'
+import { ref, defineProps, toRefs } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import Store from "@/store";
+import { pathMapToMenu } from "@/utils/initRouter";
 
-const { login } = Store()
-const { menus } = login
-const router = useRouter()
-const route = useRoute()
+const { login } = Store();
+const { menus } = login;
+const router = useRouter();
+const route = useRoute();
 const props = defineProps({
   isCollapse: {
-    type: Boolean
-  }
-})
-const { isCollapse } = toRefs(props)
-const currentRoute = route.path
-const currentMenu = pathMapToMenu(login.menus, currentRoute)
+    type: Boolean,
+  },
+});
+const { isCollapse } = toRefs(props);
+const currentRoute = route.path;
+const currentMenu = pathMapToMenu(login.menus, currentRoute);
 
-const defaultValue = ref(currentMenu.id + '')
+const defaultValue = ref(currentMenu.id + "");
 
 const handleMenu = (menu: any) => {
-  console.log(menu)
+  console.log(menu);
 
   router.push({
-    path: menu.url ?? '/not-found'
-  })
-}
+    path: menu.url ?? "/not-found",
+  });
+};
 </script>
 
 <style scoped lang="less">

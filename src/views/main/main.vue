@@ -19,15 +19,15 @@
 </template>
 
 <script setup lang="ts">
-import navMenu from '@/components/nav-menu'
-import navHeader from '@/components/nav-header'
-import { ref } from 'vue'
-const isCollapse = ref(false)
+import navMenu from "@/components/nav-menu";
+import navHeader from "@/components/nav-header";
+import { ref } from "vue";
+const isCollapse = ref(false);
 const foldChange = (isFold: string) => {
-  console.log('什么', isFold)
+  console.log("什么", isFold);
 
-  isCollapse.value = isFold === 'Expand' ? false : true
-}
+  isCollapse.value = isFold === "Expand" ? false : true;
+};
 </script>
 
 <style scoped lang="less">

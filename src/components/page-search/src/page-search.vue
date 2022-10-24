@@ -4,47 +4,49 @@
       <template #footer>
         <div class="handle-btns">
           <el-button :icon="Refresh" @click="handleReset">重置</el-button>
-          <el-button :icon="Search" type="primary" @click="handleQueryClick">搜索</el-button>
+          <el-button :icon="Search" type="primary" @click="handleQueryClick"
+            >搜索</el-button
+          >
         </div>
       </template>
     </MyForm>
   </div>
 </template>
 <script lang="ts" setup>
-import { Refresh, Search } from '@element-plus/icons-vue'
-import MyForm from '@/base-ui/form'
-import { ref, defineProps, defineEmits, getCurrentInstance } from 'vue'
+import { Refresh, Search } from "@element-plus/icons-vue";
+import MyForm from "@/base-ui/form";
+import { ref, defineProps, defineEmits, getCurrentInstance } from "vue";
 
 const props = defineProps({
   searchFormConfig: {
     type: Object,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const emits = defineEmits(['queryBtnClick', 'resetBtnClick'])
+const emits = defineEmits(["queryBtnClick", "resetBtnClick"]);
 
-let searchForm: any = {}
+let searchForm: any = {};
 for (let item of props.searchFormConfig.formItems) {
-  searchForm[item.field] = ''
+  searchForm[item.field] = "";
 }
 
-const formData = ref(searchForm)
+const formData = ref(searchForm);
 
 const handleReset = () => {
-  formData.value = searchForm
-  emits('resetBtnClick')
-}
+  formData.value = searchForm;
+  emits("resetBtnClick");
+};
 
 const handleQueryClick = () => {
-  emits('queryBtnClick', formData.value)
-}
+  emits("queryBtnClick", formData.value);
+};
 
-const instance = getCurrentInstance()
+const instance = getCurrentInstance();
 
-instance?.proxy?.$Bus.on('handleQuery', () => {
-  return handleQueryClick()
-})
+instance?.proxy?.$Bus.on("handleQuery", () => {
+  return handleQueryClick();
+});
 </script>
 <style lang="less" scoped>
 .handle-btns {

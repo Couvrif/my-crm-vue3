@@ -1,5 +1,5 @@
-import MyTable from './src/my-table.vue'
+import MyTable from "./src/my-table.vue";
 
-export * from './type'
+export * from "./type";
 
-export default MyTable
+export default MyTable;

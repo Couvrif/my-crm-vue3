@@ -7,8 +7,15 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
-            <el-form-item v-if="!item.isHidden" :label="item.label" :rules="item.rules" :style="itemStyle">
-              <template v-if="item.type === 'input' || item.type === 'password'">
+            <el-form-item
+              v-if="!item.isHidden"
+              :label="item.label"
+              :rules="item.rules"
+              :style="itemStyle"
+            >
+              <template
+                v-if="item.type === 'input' || item.type === 'password'"
+              >
                 <el-input
                   v-bind="item.otherOptions"
                   :placeholder="item.placeholder"
@@ -25,7 +32,11 @@
                   style="width: 100%"
                 >
                   <template v-for="option in item.options" :key="option.label">
-                    <el-option v-bind="item.otherOptions" :value="option.value" :label="option.title"></el-option>
+                    <el-option
+                      v-bind="item.otherOptions"
+                      :value="option.value"
+                      :label="option.title"
+                    ></el-option>
                   </template>
                 </el-select>
               </template>
@@ -50,25 +61,25 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, PropType, ref, watch, defineEmits } from 'vue'
-import { IFormItem } from '../type'
+import { defineProps, PropType, ref, watch, defineEmits } from "vue";
+import { IFormItem } from "../type";
 
 const props = defineProps({
   modelValue: {
     type: Object,
-    required: true
+    required: true,
   },
   formItems: {
     type: Array as PropType<IFormItem[]>,
-    default: () => []
+    default: () => [],
   },
   labelWidth: {
     type: String,
-    default: '100px'
+    default: "100px",
   },
   itemStyle: {
     type: Object,
-    default: () => ({ padding: '10px 40px' })
+    default: () => ({ padding: "10px 40px" }),
   },
   colLayout: {
     type: Object,
@@ -77,18 +88,18 @@ const props = defineProps({
       lg: 8,
       md: 12,
       sm: 24,
-      xs: 24
-    })
-  }
-})
+      xs: 24,
+    }),
+  },
+});
 
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(["update:modelValue"]);
 
 // const formData = ref({ ...props.modelVale })
 
 const handleValueChange = (value: any, field: string) => {
-  emits('update:modelValue', { ...props.modelValue, [field]: value })
-}
+  emits("update:modelValue", { ...props.modelValue, [field]: value });
+};
 // watch(formData, (newValue) => {
 //   emits('update:modelValue', newValue)
 // })

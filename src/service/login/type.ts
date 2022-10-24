@@ -1,15 +1,15 @@
 export interface loginParams {
-  name: string
-  password: string
+  name: string;
+  password: string;
 }
 
 export interface LoginResult {
-  id: number
-  name: string
-  token: string
+  id: number;
+  name: string;
+  token: string;
 }
 
 export interface DataType<T = any> {
-  code: number
-  data: T
+  code: number;
+  data: T;
 }

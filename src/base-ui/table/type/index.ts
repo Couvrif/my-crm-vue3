@@ -1,3 +1,3 @@
 export interface aa {
-  name: string
+  name: string;
 }

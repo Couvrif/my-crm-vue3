@@ -60,7 +60,9 @@ export const loginStore = defineStore("login", {
       this.userInfo = userInfo ?? "";
       const menus = cache.getCache("menus");
       this.menus = menus ?? "";
-      this.initRouter(this.menus);
+      if (this.token) {
+        this.initRouter(this.menus);
+      }
     },
     async initEntire() {
       const departmentData = await getPageListData("/department/list", {

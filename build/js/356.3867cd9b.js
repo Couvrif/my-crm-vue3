@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkvue3_ts_cms"]=self["webpackChunkvue3_ts_cms"]||[]).push([[356],{40089:function(t,n){n.Z=(t,n)=>{const c=t.__vccOpts||t;for(const[e,r]of n)c[e]=r;return c}},35356:function(t,n,c){c.r(n),c.d(n,{default:function(){return v}});var e=c(73396);const r={class:"category"},s=(0,e._)("h2",null,"category",-1),u=[s];function o(t,n,c,s,o,a){return(0,e.wg)(),(0,e.iD)("div",r,u)}var a=(0,e.aZ)({name:"category",setup(){return{}}}),f=c(40089);const i=(0,f.Z)(a,[["render",o]]);var v=i}}]);
+//# sourceMappingURL=356.3867cd9b.js.map

@@ -65,6 +65,8 @@ class MYRequest {
   }
 
   request<T>(config: MYRequestConfig<T>): Promise<T> {
+
+    // 单个请求的拦截器
     return new Promise((resolve, reject) => {
       if (config.interceptors?.requestInterceptor) {
         config = config.interceptors.requestInterceptor(config);
